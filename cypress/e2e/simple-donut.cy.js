@@ -1,9 +1,9 @@
 describe("simple-donut", () => {
-  Cypress.on("uncaught:exception", (err, runnable) => {
-    return false;
-  });
-
   beforeEach(() => {
+    Cypress.on("uncaught:exception", (err, runnable) => {
+      return false;
+    });
+
     cy.visit("/samples/react/pie/simple-donut.html");
   });
 

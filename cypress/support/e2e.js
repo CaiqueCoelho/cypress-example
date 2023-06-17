@@ -1,13 +1,8 @@
 import "./commands";
 import addContext from "mochawesome/addContext";
 
-after(() => {
-  // Add a 3-second delay at the end of each video to see the final result clearly
-  cy.wait(3000);
-});
-
-Cypress.on("uncaught:exception", (err, runnable) => {
-  return false;
+afterEach(() => {
+  cy.wait(1000);
 });
 
 Cypress.on("test:after:run", (test, runnable) => {
