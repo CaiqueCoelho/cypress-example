@@ -1,3 +1,5 @@
+import { calculatePercentage } from "../support/utils";
+
 describe("simple-donut", () => {
   beforeEach(() => {
     Cypress.on("uncaught:exception", (err, runnable) => {
@@ -90,7 +92,93 @@ describe("simple-donut", () => {
       });
   });
 
-  it("Check if the values on my series represet the real percetage shown on the chart", () => {});
+  it("Check if the values on my series represet the real percetage shown on the chart", () => {
+    let totalSeriesValues = 0;
+    let seriesValues = undefined;
+    cy.get('[type="donut"]')
+      .invoke("attr", "series")
+      .then((series) => {
+        seriesValues = series.split(",");
+        totalSeriesValues =
+          Number(seriesValues[0]) +
+          Number(seriesValues[1]) +
+          Number(seriesValues[2]) +
+          Number(seriesValues[3]) +
+          Number(seriesValues[4]);
+      });
+    cy.get("#SvgjsText1018")
+      .invoke("text")
+      .then((series1Percentage) => {
+        cy.get("#SvgjsG1030")
+          .invoke("text")
+          .then((series2Percentage) => {
+            cy.get("#SvgjsG1043")
+              .invoke("text")
+              .then((series3Percentage) => {
+                cy.get("#SvgjsG1056")
+                  .invoke("text")
+                  .then((series4Percentage) => {
+                    cy.get("#SvgjsG1069")
+                      .invoke("text")
+                      .then((series5Percentage) => {
+                        const sumSeriesPercentage =
+                          Number(series1Percentage.replace("%", "")) +
+                          Number(series2Percentage.replace("%", "")) +
+                          Number(series3Percentage.replace("%", "")) +
+                          Number(series4Percentage.replace("%", "")) +
+                          Number(series5Percentage.replace("%", ""));
+
+                        expect(Math.floor(sumSeriesPercentage)).to.be.equals(
+                          100
+                        );
+
+                        const seriesPercentage1Calculated = calculatePercentage(
+                          totalSeriesValues,
+                          seriesValues[0]
+                        );
+
+                        const seriesPercentage2Calculated = calculatePercentage(
+                          totalSeriesValues,
+                          seriesValues[1]
+                        );
+                        const seriesPercentage3Calculated = calculatePercentage(
+                          totalSeriesValues,
+                          seriesValues[2]
+                        );
+                        const seriesPercentage4Calculated = calculatePercentage(
+                          totalSeriesValues,
+                          seriesValues[3]
+                        );
+                        const seriesPercentage5Calculated = calculatePercentage(
+                          totalSeriesValues,
+                          seriesValues[4]
+                        );
+
+                        expect(
+                          Number(series1Percentage.replace("%", ""))
+                        ).to.be.equals(seriesPercentage1Calculated);
+
+                        expect(
+                          Number(series2Percentage.replace("%", ""))
+                        ).to.be.equals(seriesPercentage2Calculated);
+
+                        expect(
+                          Number(series3Percentage.replace("%", ""))
+                        ).to.be.equals(seriesPercentage3Calculated);
+
+                        expect(
+                          Number(series4Percentage.replace("%", ""))
+                        ).to.be.equals(seriesPercentage4Calculated);
+
+                        expect(
+                          Number(series5Percentage.replace("%", ""))
+                        ).to.be.equals(seriesPercentage5Calculated);
+                      });
+                  });
+              });
+          });
+      });
+  });
 
   it("Hover in a series in chart should show the total number of values in the serie", () => {});
 
