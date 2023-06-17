@@ -21,12 +21,12 @@ When the job of tests finish we can see the reports of our executed tests hosted
 
 Go to https://apexcharts.com/samples/react/pie/simple-donut.html and click in the gray button called Run Workflow and in the green button
 called Run Workflow, the job will start and you will be able to see all the steps running include the test and you can download the report in the end
-of the job execution in the Summary of the job action in the Artifacts section like the following example https://github.com/CaiqueCoelho/cypress-example/actions/runs/5293468810
+of the job execution in the Summary of the job action in the Artifacts section like the following example https://github.com/CaiqueCoelho/cypress-example/actions/runs/5299155073
 
 ## Tests report from the Cypress execution
 
 I'm using Github Pages to store the lastest test execution so you can access the following link to see the report of the test execution https://caiquecoelho.github.io/cypress-example/
-Or you can download the report from the Github Artifact of the last execution https://github.com/CaiqueCoelho/cypress-example/suites/13666152143/artifacts/754848555
+Or you can download the report from the Github Artifact of the last execution https://github.com/CaiqueCoelho/cypress-example/suites/13677686927/artifacts/755789239
 
 ## Tests videos from the Cypress execution
 
