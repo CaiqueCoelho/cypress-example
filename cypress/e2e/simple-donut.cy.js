@@ -1,4 +1,8 @@
 describe("simple-donut", () => {
+  Cypress.on("uncaught:exception", (err, runnable) => {
+    return false;
+  });
+
   beforeEach(() => {
     cy.visit("/samples/react/pie/simple-donut.html");
   });
@@ -37,11 +41,56 @@ describe("simple-donut", () => {
       });
   });
 
-  it("Checking if sum all the series on the char is we are getting 100%", () => {});
+  it("Check if a series with 0 values would be display in the chart with percentage 0%", () => {
+    cy.intercept("https://apexcharts.com/samples/react/pie/simple-donut.html", {
+      fixture: "simple-donut.html",
+    }).as("simple-donut");
+
+    cy.visit("/samples/react/pie/simple-donut.html");
+
+    cy.wait("@simple-donut");
+
+    cy.get("#chart").should("be.visible");
+    cy.get('[seriesname="series-1"]').should("be.visible");
+    cy.get('[seriesName="series-1"]')
+      .eq(1)
+      .children()
+      .should("have.attr", "data:value", 0);
+  });
+
+  it("Checking if sum all the series on the char is we are getting 100%", () => {
+    cy.get("#SvgjsText1018")
+      .invoke("text")
+      .then((series1) => {
+        cy.get("#SvgjsG1030")
+          .invoke("text")
+          .then((series2) => {
+            cy.get("#SvgjsG1043")
+              .invoke("text")
+              .then((series3) => {
+                cy.get("#SvgjsG1056")
+                  .invoke("text")
+                  .then((series4) => {
+                    cy.get("#SvgjsG1069")
+                      .invoke("text")
+                      .then((series5) => {
+                        const sumSeriesPercentage =
+                          Number(series1.replace("%", "")) +
+                          Number(series2.replace("%", "")) +
+                          Number(series3.replace("%", "")) +
+                          Number(series4.replace("%", "")) +
+                          Number(series5.replace("%", ""));
+                        expect(Math.floor(sumSeriesPercentage)).to.be.equals(
+                          100
+                        );
+                      });
+                  });
+              });
+          });
+      });
+  });
 
   it("Check if the values on my series represet the real percetage shown on the chart", () => {});
-
-  it("Check if a series with 0 values would be display in the chart with percentage 0%", () => {});
 
   it("Hover in a series in chart should show the total number of values in the serie", () => {});
 
