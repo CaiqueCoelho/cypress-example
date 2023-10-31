@@ -182,6 +182,26 @@ describe("simple-donut", () => {
 
   it("Hover in a series in chart should show the total number of values in the serie", () => {});
 
+  it("Get All Donut Percentage values using cypress-map methods and save as Env value", () => {
+    cy.get('[type="donut"]')
+      .map("innerText")
+      .mapInvoke("split", "\n")
+      .mapInvoke("slice", 5)
+      .asEnv("donut-values")
+      .print();
+  });
+
+  it("Check if values Donut Percentage is equal a 100%", () => {
+    cy.get('[type="donut"]')
+      .map("innerText")
+      .mapInvoke("split", "\n")
+      .mapInvoke("slice", 5)
+      .at(-1)
+      .map(parseInt)
+      .reduce((sum, n) => sum + n, 3)
+      .should("equal", 100);
+  });
+
   it("Intercept the endpoint requests sending the series data and check if the information on the chart is the same one from our endpoint response", () => {});
 
   it("Check if my series on chart have different colors", () => {});

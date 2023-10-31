@@ -1,5 +1,6 @@
 import "./commands";
 import addContext from "mochawesome/addContext";
+import "cypress-map";
 
 afterEach(() => {
   cy.wait(1000);
